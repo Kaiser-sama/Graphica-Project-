@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diddy Party - Study Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #1a0933, #2d1b4e, #4c2885);
+            background-attachment: fixed;
+            color: #ffffff;
+        }
+
+        /* Purple Glass Theme */
+        :root {
+            --primary: #a855f7;
+            --secondary: #8b5cf6;
+            --accent: #c084fc;
+            --bg: rgba(26, 9, 51, 0.9);
+            --surface: rgba(139, 92, 246, 0.1);
+            --glass: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --text-muted: #c084fc;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        /* Intro Animation */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), #7c3aed);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        .intro-logo {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #ffffff, #c084fc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1a0933;
+            filter: drop-shadow(0 0 30px rgba(255,255,255,0.8));
+            animation: popIn 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            margin-bottom: 1rem;
+        }
+
+        .intro-text {
+            font-size: 1.5rem;
+            animation: fadeInUp 2s ease;
+            text-align: center;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(-10deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .intro-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            transform: translateY(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        header.visible {
+            transform: translateY(0);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 80px;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent), #ffffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Feature Sections */
+        .features {
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .feature-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 16px 40px 0 rgba(168, 85, 247, 0.4);
+            border-color: rgba(192, 132, 252, 0.4);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+        }
+
+        /* Interactive Elements */
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.6);
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Input styling */
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid rgba(168, 85, 247, 0.5);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: var(--text);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Tab styling */
+        .tab-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+
+        /* File upload area */
+        .file-upload-area {
+            border: 2px dashed rgba(168, 85, 247, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        .file-upload-area.dragover {
+            border-color: var(--accent);
+            background: rgba(192, 132, 252, 0.2);
+        }
+
+        /* Output styling */
+        .output-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .success-output {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .error-output {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* YouTube embed */
+        .video-embed {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 1rem;
+        }
+
+        /* Notes area */
+        .notes-area {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Flashcard */
+        .flashcard {
+            width: 100%;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(168, 85, 247, 0.5);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 15px;
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 5% auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .features { 
+                grid-template-columns: 1fr; 
+                padding: 2rem 1rem; 
+                gap: 2rem;
+            }
+            .feature-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Animation -->
+    <div class="intro-overlay" id="introOverlay">
+        <div class="intro-logo">
+            🎉 DP
+        </div>
+        <div class="intro-text">
+            Ain't no party like a diddy party!
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="header" class="glass">
+        <nav>
+            <div class="logo">Diddy Party</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#study">Study</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>Welcome to Diddy Party!</h1>
+            <p>The ultimate study and fun hub - because ain't no party like a diddy party!</p>
+            <button class="btn" onclick="scrollToFeatures()">Explore Features</button>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <!-- YouTube Hub -->
+            <div class="feature-card glass">
+                <h3>📺 YouTube Hub</h3>
+                <p>Embed and explore educational videos</p>
+                <input type="text" id="youtubeUrl" placeholder="Paste YouTube URL here...">
+                <button class="btn" onclick="embedVideo()">Load Video</button>
+                <iframe class="video-embed" id="videoEmbed" style="display: none;" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <!-- Smart Summarizer with PDF Support -->
+            <div class="feature-card glass" id="summarizerCard">
+                <h3>📋 Smart Summarizer</h3>
+                <p>Get quick summaries of your content or upload PDF files</p>
+                
+                <!-- Tab Selection -->
+                <div class="tab-container">
+                    <button class="tab-btn active" id="textTab" onclick="switchTab('text')">Text</button>
+                    <button class="tab-btn" id="pdfTab" onclick="switchTab('pdf')">PDF Upload</button>
+                </div>
+                
+                <!-- Text Summarization -->
+                <div id="textSummarizer">
+                    <textarea id="contentToSummarize" placeholder="Paste your content here..." rows="4"></textarea>
+                    <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                        <select id="textMethod">
+                            <option value="extractive">Quick Summary</option>
+                            <option value="detailed">Detailed Summary</option>
+                        </select>
+                        <input type="number" id="textSentences" placeholder="Sentences" min="1" max="10" value="3" style="width: 100px;">
+                    </div>
+                    <button class="btn" onclick="summarizeText()">Summarize Text</button>
+                </div>
+                
+                <!-- PDF Upload -->
+                <div id="pdfSummarizer" style="display: none;">
+                    <div class="file-upload-area" id="fileUploadArea" onclick="document.getElementById('pdfFile').click()">
+                        <p>Click to upload PDF or drag & drop</p>
+                        <input type="file" id="pdfFile" accept=".pdf" style="display: none;" onchange="handleFileSelect(event)">
+                        <p id="fileName"></p>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                        <select id="pdfMethod">
+                            <option value="extractive">Quick Summary</option>
+                            <option value="detailed">Detailed Summary</option>
+                        </select>
+                        <input type="number" id="pdfSentences" placeholder="Sentences" min="1" max="10" value="3" style="width: 100px;">
+                    </div>
+                    
+                    <button class="btn" onclick="summarizePDF()" id="pdfSummarizeBtn">Summarize PDF</button>
+                </div>
+                
+                <!-- Loading indicator -->
+                <div id="loadingIndicator" class="loading" style="display: none;">
+                    Processing... Please wait
+                </div>
+                
+                <!-- Results -->
+                <div id="summaryOutput"></div>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="feature-card glass">
+                <h3>📓 My Notes</h3>
+                <p>Keep track of your thoughts and ideas</p>
+                <textarea class="notes-area" id="notesArea" placeholder="Write your notes here..."></textarea>
+                <button class="btn" onclick="saveNotes()">Save Notes</button>
+                <button class="btn" onclick="clearNotes()">Clear</button>
+            </div>
+
+            <!-- Flashcards -->
+            <div class="feature-card glass">
+                <h3>🎴 Flashcards</h3>
+                <p>Interactive study cards</p>
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-front">
+                        What is the capital of France?
+                    </div>
+                    <div class="flashcard-back">
+                        Paris
+                    </div>
+                </div>
+                <button class="btn" onclick="openFlashcardModal()">Create New Card</button>
+            </div>
+
+            <!-- Cheat Sheet Maker -->
+            <div class="feature-card glass">
+                <h3>📊 Cheat Sheet Maker</h3>
+                <p>Create awesome study guides</p>
+                <button class="btn" onclick="openCheatSheetModal()">Create Cheat Sheet</button>
+                <div id="cheatSheetPreview"></div>
+            </div>
+
+            <!-- Study Timer -->
+            <div class="feature-card glass">
+                <h3>⏰ Study Timer</h3>
+                <p>Pomodoro technique made fun</p>
+                <div style="text-align: center; font-size: 2rem; margin: 1rem 0;" id="timerDisplay">25:00</div>
+                <div style="text-align: center;">
+                    <button class="btn" onclick="startTimer()">Start</button>
+                    <button class="btn" onclick="pauseTimer()">Pause</button>
+                    <button class="btn" onclick="resetTimer()">Reset</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal" id="flashcardModal">
+        <div class="modal-content glass">
+            <span class="close" onclick="closeModal('flashcardModal')">&times;</span>
+            <h3>Create New Flashcard</h3>
+            <input type="text" placeholder="Front side..." id="flashcardFront">
+            <input type="text" placeholder="Back side..." id="flashcardBack">
+            <button class="btn" onclick="createFlashcard()">Create Card</button>
+        </div>
+    </div>
+
+    <div class="modal" id="cheatSheetModal">
+        <div class="modal-content glass">
+            <span class="close" onclick="closeModal('cheatSheetModal')">&times;</span>
+            <h3>Create Cheat Sheet</h3>
+            <input type="text" placeholder="Title..." id="cheatSheetTitle">
+            <textarea placeholder="Enter key points (one per line)..." id="cheatSheetContent" rows="6"></textarea>
+            <button class="btn" onclick="generateCheatSheet()">Generate</button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let studyTimer;
+        let timeLeft = 25 * 60; // 25 minutes
+        let isRunning = false;
+        const API_BASE_URL = 'http://localhost:5000';
+
+        // Intro Animation
+        window.addEventListener('load', function() {
+            // Text-to-speech greeting
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance("Welcome to Diddy Party! Let's get this study session started!");
+                utterance.rate = 1.2;
+                utterance.pitch = 1.1;
+                speechSynthesis.speak(utterance);
+            }
+
+            setTimeout(() => {
+                document.getElementById('introOverlay').classList.add('fade-out');
+                document.getElementById('header').classList.add('visible');
+                setTimeout(() => {
+                    document.getElementById('introOverlay').style.display = 'none';
+                }, 1000);
+            }, 3000);
+        });
+
+        // Scroll animations
+        function handleScroll() {
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    card.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('load', handleScroll);
+
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // YouTube functionality
+        function embedVideo() {
+            const url = document.getElementById('youtubeUrl').value;
+            const videoId = extractVideoId(url);
+            
+            if (videoId) {
+                const iframe = document.getElementById('videoEmbed');
+                iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                iframe.style.display = 'block';
+            } else {
+                alert('Please enter a valid YouTube URL!');
+            }
+        }
+
+        function extractVideoId(url) {
+            const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            const textTab = document.getElementById('textTab');
+            const pdfTab = document.getElementById('pdfTab');
+            const textSummarizer = document.getElementById('textSummarizer');
+            const pdfSummarizer = document.getElementById('pdfSummarizer');
+            
+            if (tab === 'text') {
+                textTab.classList.add('active');
+                pdfTab.classList.remove('active');
+                textSummarizer.style.display = 'block';
+                pdfSummarizer.style.display = 'none';
+            } else {
+                pdfTab.classList.add('active');
+                textTab.classList.remove('active');
+                textSummarizer.style.display = 'none';
+                pdfSummarizer.style.display = 'block';
+            }
+        }
+
+        // File handling
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const fileName = document.getElementById('fileName');
+            
+            if (file) {
+                fileName.textContent = `Selected: ${file.name}`;
+                fileName.style.color = 'var(--accent)';
+            }
+        }
+
+        // Drag and drop
+        function setupDragDrop() {
+            const uploadArea = document.getElementById('fileUploadArea');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight(e) {
+                uploadArea.classList.add('dragover');
+            }
+
+            function unhighlight(e) {
+                uploadArea.classList.remove('dragover');
+            }
+
+            uploadArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length > 0 && files[0].type === 'application/pdf') {
+                    document.getElementById('pdfFile').files = files;
+                    handleFileSelect({ target: { files: files } });
+                }
+            }
+        }
+
+        // Text summarization (fallback method)
+        function summarizeText() {
+            const content = document.getElementById('contentToSummarize').value;
+            const method = document.getElementById('textMethod').value;
+            const sentences = parseInt(document.getElementById('textSentences').value) || 3;
+            const output = document.getElementById('summaryOutput');
+            const loading = document.getElementById('loadingIndicator');
+            
+            if (!content.trim()) {
+                alert('Please enter some content to summarize!');
+                return;
+            }
+            
+            loading.style.display = 'block';
+            output.innerHTML = '';
+            
+            // Simple extractive summarization fallback
+            setTimeout(() => {
+                const summary = extractiveSummary(content, sentences);
+                loading.style.display = 'none';
+                displayResults({
+                    success: true,
+                    summary: summary,
+                    word_count: content.split(' ').length,
+                    method: method
+                }, 'Text');
+            }, 1500);
+        }
+
+        function extractiveSummary(text, numSentences) {
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            if (sentences.length <= numSentences) return text;
+            
+            // Simple scoring based on sentence length and position
+            const scored = sentences.map((sentence, index) => ({
+                sentence: sentence.trim(),
+                score: sentence.length * (sentences.length - index) / sentences.length
+            }));
+            
+            return scored
+                .sort((a, b) => b.score - a.score)
+                .slice(0, numSentences)
+                .map(item => item.sentence)
+                .join('. ') + '.';
+        }
+
+        // PDF summarization (placeholder)
+        async function summarizePDF() {
+            const fileInput = document.getElementById('pdfFile');
+            const method = document.getElementById('pdfMethod').value;
+            const sentences = parseInt(document.getElementById('pdfSentences').value) || 3;
+            const output = document.getElementById('summaryOutput');
+            const loading = document.getElementById('loadingIndicator');
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('Please select a PDF file!');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            
+            loading.style.display = 'block';
+            output.innerHTML = '';
+            
+            // Simulate PDF processing
+            setTimeout(() => {
+                loading.style.display = 'none';
+                displayResults({
+                    success: true,
+                    summary: `This is a demo summary of ${file.name}. The PDF contains important information about the topic, with key insights and main concepts highlighted. This feature would normally extract and summarize the actual PDF content using AI.`,
+                    word_count: 1250,
+                    method: method
+                }, 'PDF');
+            }, 3000);
+        }
+
+        function displayResults(data, type) {
+            const output = document.getElementById('summaryOutput');
+            
+            output.innerHTML = `
+                <div class="output-container success-output">
+                    <h4>✅ ${type} Summary (${data.method})</h4>
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <p style="line-height: 1.6; margin: 0;">${data.summary}</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 0.5rem; border-radius: 5px; text-align: center;">
+                            <strong>Original:</strong><br>${data.word_count} words
+                        </div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 0.5rem; border-radius: 5px; text-align: center;">
+                            <strong>Summary:</strong><br>${data.summary.split(' ').length} words
+                        </div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 0.5rem; border-radius: 5px; text-align: center;">
+                            <strong>Reduction:</strong><br>${Math.round((1 - data.summary.split(' ').length / data.word_count) * 100)}%
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem;">
+                        <button class="btn" onclick="copyToClipboard(\`${data.summary.replace(/`/g, '\\`')}\`)">Copy Summary</button>
+                        <button class="btn" onclick="saveSummaryAsNote(\`${data.summary.replace(/`/g, '\\`')}\`)">Save as Note</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showFeedback('Copied to clipboard!');
+                });
+            } else {
+                // Fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showFeedback('Copied to clipboard!');
+            }
+        }
+
+        function saveSummaryAsNote(summary) {
+            const notesArea = document.getElementById('notesArea');
+            const currentNotes = notesArea.value;
+            const timestamp = new Date().toLocaleString();
+            
+            const newNote = `${currentNotes}\n\n--- Summary (${timestamp}) ---\n${summary}\n`;
+            notesArea.value = newNote;
+            showFeedback('Saved to notes!');
+        }
+
+        function showFeedback(message) {
+            const feedback = document.createElement('div');
+            feedback.textContent = message;
+            feedback.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, var(--primary), var(--secondary));
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                z-index: 3000;
+                animation: slideInRight 0.3s ease;
+            `;
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => document.body.removeChild(feedback), 300);
+            }, 2000);
+        }
+
+        // Notes functionality
+        function saveNotes() {
+            const notes = document.getElementById('notesArea').value;
+            localStorage.setItem('diddyPartyNotes', notes);
+            showFeedback('Notes saved!');
+        }
+
+        function clearNotes() {
+            if (confirm('Are you sure you want to clear all notes?')) {
+                document.getElementById('notesArea').value = '';
+                localStorage.removeItem('diddyPartyNotes');
+                showFeedback('Notes cleared!');
+            }
+        }
+
+        function loadNotes() {
+            const saved = localStorage.getItem('diddyPartyNotes');
+            if (saved) {
+                document.getElementById('notesArea').value = saved;
+            }
+        }
+
+        // Flashcard functionality
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        function openFlashcardModal() {
+            document.getElementById('flashcardModal').style.display = 'block';
+        }
+
+        function createFlashcard() {
+            const front = document.getElementById('flashcardFront').value;
+            const back = document.getElementById('flashcardBack').value;
+            
+            if (front && back) {
+                const flashcardsContainer = document.querySelector('.feature-card:nth-child(4)');
+                const newCard = document.createElement('div');
+                newCard.className = 'flashcard';
+                newCard.onclick = () => flipCard(newCard);
+                newCard.innerHTML = `
+                    <div class="flashcard-front">${front}</div>
+                    <div class="flashcard-back">${back}</div>
+                `;
+                
+                const createButton = flashcardsContainer.querySelector('.btn');
+                flashcardsContainer.insertBefore(newCard, createButton);
+                closeModal('flashcardModal');
+                
+                document.getElementById('flashcardFront').value = '';
+                document.getElementById('flashcardBack').value = '';
+                showFeedback('Flashcard created!');
+            } else {
+                alert('Please fill in both sides of the flashcard!');
+            }
+        }
+
+        // Cheat Sheet functionality
+        function openCheatSheetModal() {
+            document.getElementById('cheatSheetModal').style.display = 'block';
+        }
+
+        function generateCheatSheet() {
+            const title = document.getElementById('cheatSheetTitle').value;
+            const content = document.getElementById('cheatSheetContent').value;
+            const preview = document.getElementById('cheatSheetPreview');
+            
+            if (title && content) {
+                const points = content.split('\n').filter(point => point.trim());
+                let cheatSheetHTML = `
+                    <div class="output-container" style="border: 2px solid var(--primary); margin-top: 1rem;">
+                        <h2 style="color: var(--accent); text-align: center; margin-bottom: 1rem;">${title}</h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                `;
+                
+                points.forEach((point, index) => {
+                    cheatSheetHTML += `
+                        <div style="background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; padding: 1rem; border-radius: 10px; text-align: center;">
+                            <strong>${index + 1}.</strong> ${point}
+                        </div>
+                    `;
+                });
+                
+                cheatSheetHTML += `
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem; font-style: italic; color: var(--text-muted);">
+                            Generated by Cheat Sheet Maker
+                        </div>
+                        <button class="btn" onclick="copyCheatSheet()">Copy Cheat Sheet</button>
+                    </div>
+                `;
+                
+                preview.innerHTML = cheatSheetHTML;
+                closeModal('cheatSheetModal');
+                
+                document.getElementById('cheatSheetTitle').value = '';
+                document.getElementById('cheatSheetContent').value = '';
+                showFeedback('Cheat sheet generated!');
+            } else {
+                alert('Please fill in both title and content!');
+            }
+        }
+
+        function copyCheatSheet() {
+            const cheatSheet = document.getElementById('cheatSheetPreview').innerText;
+            copyToClipboard(cheatSheet);
+        }
+
+        // Study Timer functionality
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                studyTimer = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(studyTimer);
+                        isRunning = false;
+                        playNotification();
+                        alert('Time\'s up! Great job studying!');
+                        resetTimer();
+                    }
+                }, 1000);
+                showFeedback('Timer started!');
+            }
+        }
+
+        function pauseTimer() {
+            if (isRunning) {
+                clearInterval(studyTimer);
+                isRunning = false;
+                showFeedback('Timer paused!');
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(studyTimer);
+            isRunning = false;
+            timeLeft = 25 * 60;
+            updateTimerDisplay();
+            showFeedback('Timer reset!');
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function playNotification() {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance("Time's up! Great job studying!");
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Modal functionality
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            setupDragDrop();
+            loadNotes();
+            updateTimerDisplay();
+            
+            // Add animation styles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOutRight {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Add floating particles
+            createFloatingParticles();
+        });
+
+        function createFloatingParticles() {
+            const hero = document.querySelector('.hero');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 4 + 2}px;
+                    height: ${Math.random() * 4 + 2}px;
+                    background: rgba(192, 132, 252, 0.3);
+                    border-radius: 50%;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation: float ${Math.random() * 3 + 2}s ease-in-out infinite;
+                    animation-delay: ${Math.random() * 2}s;
+                    pointer-events: none;
+                `;
+                hero.appendChild(particle);
+            }
+        }
+
+        // Add some Easter eggs
+        let logoClickCount = 0;
+        document.querySelector('.logo').addEventListener('click', () => {
+            logoClickCount++;
+            if (logoClickCount >= 5) {
+                document.body.style.filter = 'hue-rotate(60deg) saturate(1.5)';
+                showFeedback('Party mode activated!');
+                setTimeout(() => {
+                    document.body.style.filter = '';
+                    logoClickCount = 0;
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
